@@ -268,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen>
 
           // Titre
           Text(
-            'Bienvenue sur\nMétéoFlow 🌤',
+            'Bienvenue sur\nMétéoVision ',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 32,
@@ -427,7 +427,7 @@ class _AnimatedButtonState extends State<_AnimatedButton>
                 ),
               ),
               SizedBox(width: 10),
-              Icon(Icons.rocket_launch_rounded, color: Colors.white, size: 20),
+
             ],
           ),
         ),

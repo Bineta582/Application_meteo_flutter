@@ -149,20 +149,24 @@ class _LoadingScreenState extends State<LoadingScreen>
 
   Widget _buildLoadingContent(
       BuildContext context, MeteoProvider provider, bool isDark) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Jauge circulaire animée
-          _buildCircularGauge(provider, isDark),
-          const SizedBox(height: 50),
-          // Villes en cours de chargement
-          _buildCitiesProgress(provider, isDark),
-          const SizedBox(height: 40),
-          // Message dynamique
-          _buildLoadingMessage(provider, isDark),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
+            // Jauge circulaire animée
+            _buildCircularGauge(provider, isDark),
+            const SizedBox(height: 40),
+            // Villes en cours de chargement
+            _buildCitiesProgress(provider, isDark),
+            const SizedBox(height: 30),
+            // Message dynamique
+            _buildLoadingMessage(provider, isDark),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

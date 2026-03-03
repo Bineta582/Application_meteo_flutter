@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meteo_app/models/meteo_data.dart';
 import 'package:provider/provider.dart';
-import '../models/meteo_data.dart';
 import '../providers/theme_provider.dart';
+import '../providers/meteo_provider.dart';
+import 'home_screen.dart';
 
 // ────────────────────────────────
 // Widgets helpers pour la page détail
@@ -222,8 +223,58 @@ class _CityDetailScreenState extends State<CityDetailScreen>
                 SliverToBoxAdapter(child: _buildStatsGrid(weather, isDark)),
                 SliverToBoxAdapter(child: _buildSunCard(weather, isDark)),
                 SliverToBoxAdapter(child: _buildInlineMap(weather, isDark)),
-                const SliverToBoxAdapter(child: SizedBox(height: 30)),
+                const SliverToBoxAdapter(child: SizedBox(height: 100)),
               ],
+            ),
+          ),
+          // Bouton Back fixe en bas pour retourner au tableau de bord
+          Positioned(
+            bottom: 30,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: GestureDetector(
+                onTap: () {
+                  // Réinitialiser le provider et retourner à la page d'accueil
+                  context.read<MeteoProvider>().reset();
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const HomeScreen()),
+                        (route) => false,
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF1976D2), Color(0xFF0288D1)],
+                    ),
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF0288D1).withOpacity(0.5),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.home_rounded, color: Colors.white, size: 24),
+                      SizedBox(width: 12),
+                      Text(
+                        'Retour à l\'accueil',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         ],
@@ -287,19 +338,26 @@ class _CityDetailScreenState extends State<CityDetailScreen>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(weather.cityName,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.w800)),
-                  Text(
-                      '${weather.country} · ${weather.latitude.toStringAsFixed(2)}°N, ${weather.longitude.toStringAsFixed(2)}°E',
-                      style: const TextStyle(color: Colors.white70, fontSize: 12)),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(weather.cityName,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 28,
+                            fontWeight: FontWeight.w800)),
+                    Text(
+                        '${weather.country} · ${weather.latitude.toStringAsFixed(2)}°N, ${weather.longitude.toStringAsFixed(2)}°E',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                  ],
+                ),
               ),
+              const SizedBox(width: 12),
               Image.network(weather.iconUrl,
                   width: 80,
                   height: 80,
