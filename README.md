@@ -2,6 +2,12 @@
 
 Projet Examen Flutter
 
+--------------------------------------
+Noms des membres du groupe:
+  - Bineta Niang
+  - Abibatou Ba
+--------------------------------------
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
